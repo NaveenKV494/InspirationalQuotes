@@ -1,0 +1,34 @@
+﻿@typeparam TValue
+
+<div class="d-flex justify-content-between w-100">
+    <!-- Filter dropdown -->
+    <MudSelect TValue="string" @bind-Value="selectedFilter">
+        <MudSelectItem Value="@("ALL")">ALL</MudSelectItem>
+        <MudSelectItem Value="@("author")">Author</MudSelectItem>
+        <MudSelectItem Value="@("tag")">Tag</MudSelectItem>
+        <MudSelectItem Value="@("descr")">Description</MudSelectItem>
+    </MudSelect>
+    <!-- Additional input for multiple tags -->
+    @if (selectedFilter == "tag")
+    {
+        <div>
+            <!-- Suggestions for tags -->
+            <!-- You can implement tag suggestions here -->
+        </div>
+    }
+    <!-- Main search input -->
+    @* <input @bind-value="searchTerm" @bind-value:event="oninput" placeholder="Search quotes..." class="mud-input" @oninput="Search" /> *@
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback<(string searchTerm, string selectedFilter)> Search { get; set; }
+
+    private string searchTerm = "";
+    private string selectedFilter = "ALL"; 
+
+    private async Task HandleSearch()
+    {
+        await Search.InvokeAsync((searchTerm, selectedFilter));
+    }
+}

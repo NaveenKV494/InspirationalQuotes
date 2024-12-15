@@ -1,0 +1,135 @@
+﻿<link rel="stylesheet" href="AddQuote.razor.css" />
+@page "/addquote"
+@layout MainLayout
+@using InspirationalQuotes.UI.Data
+@using Quote = InspirationalQuotes.UI.RequestModels.QuoteRequest
+@inject ISnackbar Snackbar
+
+
+<MudContainer class="outlined-card">
+    <MudCard class="" Style="padding : 17px" >
+        <MudToolBar>
+        <div class="toolbar-content" style="display: flex; align-items: center;">
+                <!-- Back button -->
+                <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="NavigateToMainPage">
+                    <MudIcon Icon="@Icons.Material.Filled.ArrowBack" /> Go Back
+                </MudButton>
+                <!-- Title -->
+                <MudText Typo="Typo.h5" style="margin-left: 10px;">Create Quotes</MudText>
+            </div>
+        </MudToolBar>
+        <div>
+            @foreach (var (quote, qindex) in newQuotes.Select((quote, index) => (quote, index)))
+            {
+                <MudCard Class="shadow-lg align-content-center" Style="padding: 2px; margin:12px; background-color : #03a9f4; color : #ffffff;">
+                    <div class="row m-md-2 align-items-center">
+                        <div class="col">
+                            <MudText Typo="Typo.h6" Class="m-md-2">Quote - @(qindex + 1)</MudText>
+                        </div>
+                        <div class="col-auto">
+                            @if (newQuotes.Count > 1)
+                            {
+                                <MudIconButton Icon="@Icons.Material.Filled.Minimize" Color="Color.Secondary" @onclick="() => RemoveQuote(newQuotes, newQuotes[qindex])" />
+                            }
+                        </div>
+                    </div>
+
+                    <MudCardContent Style="background-color: #d7f1fa;">
+                        <MudCard Class="shadow p-2 mb-5 bg-white rounded" Style="margin: 2px;">
+                            <div>
+                                <label for="author">Author:</label>
+                                <MudTextField @bind-Value="@quote.Author" id="author" Placeholder="Author" Class="col-11" /><br />
+                            </div>
+
+                            <div>
+                                @foreach (var tagIndex in Enumerable.Range(0, quote.Tags.Count))
+                                {
+                                    <div class="col">
+                                        <p>Tag - @(tagIndex + 1):</p>
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <MudTextField T=string @bind-Value="quote.Tags[tagIndex]" Variant="Variant.Outlined" Clearable="true" Class="py-2" />
+                                            </div>
+
+                                            @if (quote.Tags.Count > 1 )
+                                            {
+                                                <MudIconButton Icon="@Icons.Material.Filled.Minimize" Color="Color.Secondary" @onclick="() => RemoveTag(quote, quote.Tags[tagIndex])" />
+                                            }
+
+                                            @if (quote.Tags.Count == tagIndex + 1)
+                                            {
+                                                <MudIconButton Icon="@Icons.Material.Filled.Add" Color="Color.Primary" @onclick="() => AddTag(quote)" />
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="">
+                                <label for="quoteDesc   ">Description:</label>
+                                <MudTextField @bind-Value="@quote.QuoteDesp" id="quoteDesc" Placeholder="Description" Class="col-11" /><br />
+                            </div>
+                        </MudCard>
+                    </MudCardContent>
+                </MudCard>
+            }
+
+            <div class="row m-md-2 align-items-center">
+                <div class="col">
+                    <button class="btn btn-secondary" @onclick="AddNewQuote">Add Another Quote</button>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-primary" @onclick="AddQuotes">Save Quotes</button>
+                </div>
+            </div>
+
+        </div>
+    </MudCard>
+</MudContainer>
+@code {
+    private List<Quote> newQuotes;
+
+    [Inject]
+    private QuoteService QuoteService { get; set; }
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Initialize newQuotes to an empty list
+        newQuotes = new List<Quote> { new Quote { Tags = new List<string> { "" } } };
+    }
+
+    private void AddNewQuote()
+    {
+        newQuotes.Add(new Quote { Tags = new List<string> { "" } });
+    }
+
+    private void AddTag(Quote quote)
+    {
+        quote.Tags.Add("");
+    }
+
+    private void RemoveQuote(List<Quote> quoteList, Quote quote)
+    {
+        quoteList.Remove(quote);
+    }
+    private void RemoveTag(Quote quote, string tag)
+    {
+        quote.Tags.Remove(tag);
+    }
+
+    private async Task AddQuotes()
+    {
+        if (newQuotes.Count > 0)
+        {
+            var isSuccess = await QuoteService.AddQuotes(newQuotes);
+            Snackbar.Add(isSuccess, isSuccess.Contains("successfully") ? Severity.Success : Severity.Error);
+        }
+        NavigationManager.NavigateTo("/");
+    }
+    private void NavigateToMainPage()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}

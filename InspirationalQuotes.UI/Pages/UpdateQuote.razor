@@ -1,0 +1,115 @@
+﻿@page "/editquote/{id}"
+@using InspirationalQuotes.UI.Data
+@using Quote = InspirationalQuotes.UI.RequestModels.QuoteRequest
+
+@inject QuoteService quoteService
+@inject NavigationManager navigationManager
+@inject ISnackbar Snackbar
+
+<MudContainer class="outlined-card">
+    <MudCard class="" Style="padding : 17px" >
+        <MudToolBar>
+            <div class="toolbar-content" style="display: flex; align-items: center;">
+                <!-- Back button -->
+                <MudButton Variant="Variant.Outlined" Color="Color.Info" @onclick="NavigateToMainPage">
+                    <MudIcon Icon="@Icons.Material.Filled.ArrowBack" /> Go Back
+                </MudButton>
+                <!-- Title -->
+                <MudText Typo="Typo.h5" style="margin-left: 10px;">Update Quote</MudText>
+            </div>
+        </MudToolBar>
+        @if(quote != null)
+        {
+            <div>
+                <MudCard Class="shadow-lg align-content-center" Style="padding: 2px; margin:12px;background-color : #03a9f4; color : #ffffff;">
+                    <MudCardContent Style="background-color: #d7f1fa;">
+                        <MudCard Class="shadow p-2 mb-5 bg-white rounded" Style="margin: 2px;">
+                            <div>
+                                <label for="author">Author:</label>
+                                <MudTextField @bind-Value="@quote.Author" id="author" Placeholder="Author" /><br />
+                            </div>
+
+                            <div>
+                                @foreach (var tagIndex in Enumerable.Range(0, quote.Tags.Count))
+                                {
+                                    <div class="col">
+                                        <p>Tag - @(tagIndex + 1):</p>
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <MudTextField T=string @bind-Value="quote.Tags[tagIndex]" Variant="Variant.Outlined" Clearable="true" Class="py-2" />
+                                            </div>
+
+                                            @if (quote.Tags.Count > 1)
+                                            {
+                                                <MudIconButton Icon="@Icons.Material.Filled.Clear" Color="Color.Secondary" @onclick="() => RemoveTag(quote, quote.Tags[tagIndex])" />
+                                            }
+
+                                            @if (quote.Tags.Count == tagIndex + 1)
+                                            {
+                                                <MudIconButton Icon="@Icons.Material.Filled.Add" Color="Color.Primary" @onclick="() => AddTag(quote)" />
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+        
+                            <div class="row">
+                                <label for="quoteDesc" style="padding-bottom: 4px">Quote Description:</label>
+                                <InputTextArea @bind-Value="@quote.QuoteDesp" class="col-11" id="quoteDesc" Placeholder="Quote Description" style="min-height: 60px"></InputTextArea><br />
+                            </div>
+                        </MudCard>
+                        <div class="row m-md-2 align-items-center">
+                            <div class="col">
+                            </div>
+                            <div class="col-auto">
+                                <button class="btn btn-primary" @onclick="SaveChanges">Update Quotes</button>
+                            </div>
+                        </div>
+                    </MudCardContent>
+                </MudCard>
+            </div>
+        }
+        else
+        {
+            <MudText Typo="Typo.h6">Loading.......</MudText>
+        }
+    </MudCard>
+</MudContainer>
+
+
+
+
+@code {
+    private Quote quote;
+
+    [Parameter]
+    public string Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        int quoteId;
+        if (int.TryParse(Id, out quoteId))
+        {
+            quote = await quoteService.GetQuoteById(quoteId);
+        }
+    }
+
+    private async Task SaveChanges()
+    {
+        var isSuccess = await quoteService.UpdateQuote(quote);
+        Snackbar.Add(isSuccess, isSuccess.Contains("Successfully")? Severity.Success: Severity.Error);
+        navigationManager.NavigateTo("/");
+    }
+    private void AddTag(Quote quote)
+    {
+        quote.Tags.Add("");
+    }
+    private void RemoveTag(Quote quote, string tag)
+    {
+        quote.Tags.Remove(tag);
+    }
+    private async Task NavigateToMainPage()
+    {
+        navigationManager.NavigateTo("/");
+    }
+}

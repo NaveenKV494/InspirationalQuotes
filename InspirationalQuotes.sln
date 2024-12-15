@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34723.18
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InspirationalQuotes-Backend", "InspirationalQuotes-Backend", "{D59F519F-1238-4A08-BA5B-DA8702EA76B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InspirationalQuotes-FrontEnd", "InspirationalQuotes-FrontEnd", "{F07EE069-F62A-42BF-9227-291FDFDAA931}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InspirationalQuotes.Test", "InspirationalQuotes.Test\InspirationalQuotes.Test.csproj", "{6AD7B486-6F05-4815-9C2E-528468E06F69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InspirationalQuotes.UI", "InspirationalQuotes.UI\InspirationalQuotes.UI.csproj", "{A556AF24-15AF-47C5-9313-518E4197E563}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InspirationalQuotes.API", "InspirationalQuotes.Api\InspirationalQuotes.API.csproj", "{EA0DE2B4-D554-4453-B071-38ECB94F9EE1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InspirationalQuotes.Data", "InspirationalQuotes.Data\InspirationalQuotes.Data.csproj", "{7418E815-0C85-46A6-BB5A-70B66AE80B11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InspirationalQuotes.Service", "InspirationalQuotes.Service\InspirationalQuotes.Service.csproj", "{03CDEA45-14AD-41A4-BE97-80739B8365A4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6AD7B486-6F05-4815-9C2E-528468E06F69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AD7B486-6F05-4815-9C2E-528468E06F69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AD7B486-6F05-4815-9C2E-528468E06F69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AD7B486-6F05-4815-9C2E-528468E06F69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A556AF24-15AF-47C5-9313-518E4197E563}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A556AF24-15AF-47C5-9313-518E4197E563}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A556AF24-15AF-47C5-9313-518E4197E563}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A556AF24-15AF-47C5-9313-518E4197E563}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA0DE2B4-D554-4453-B071-38ECB94F9EE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA0DE2B4-D554-4453-B071-38ECB94F9EE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA0DE2B4-D554-4453-B071-38ECB94F9EE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA0DE2B4-D554-4453-B071-38ECB94F9EE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7418E815-0C85-46A6-BB5A-70B66AE80B11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7418E815-0C85-46A6-BB5A-70B66AE80B11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7418E815-0C85-46A6-BB5A-70B66AE80B11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7418E815-0C85-46A6-BB5A-70B66AE80B11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03CDEA45-14AD-41A4-BE97-80739B8365A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03CDEA45-14AD-41A4-BE97-80739B8365A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03CDEA45-14AD-41A4-BE97-80739B8365A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03CDEA45-14AD-41A4-BE97-80739B8365A4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A556AF24-15AF-47C5-9313-518E4197E563} = {F07EE069-F62A-42BF-9227-291FDFDAA931}
+		{EA0DE2B4-D554-4453-B071-38ECB94F9EE1} = {D59F519F-1238-4A08-BA5B-DA8702EA76B8}
+		{7418E815-0C85-46A6-BB5A-70B66AE80B11} = {D59F519F-1238-4A08-BA5B-DA8702EA76B8}
+		{03CDEA45-14AD-41A4-BE97-80739B8365A4} = {D59F519F-1238-4A08-BA5B-DA8702EA76B8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E0C89D95-0A5A-4EFF-80B9-5146FC20C633}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,104 @@
+@page "/viewquote/{id}"
+@using InspirationalQuotes.UI.Data
+@using Quote = InspirationalQuotes.UI.RequestModels.QuoteRequest
+
+@inject QuoteService quoteService
+@inject NavigationManager navigationManager
+
+<MudContainer class="outlined-card">
+    <MudCard class="" Style="padding : 17px;background-color :#90cce7 ; color : white">
+            <MudToolBar >
+                <div class="toolbar-content" style="display: flex; align-items: center;padding-bottom: 10px">
+                    <!-- Back button -->
+                    <MudButton Variant="Variant.Outlined" Style="color : white; border : white" @onclick="NavigateToMainPage">
+                        <MudIcon Icon="@Icons.Material.Outlined.ArrowBack" /> Go Back
+                    </MudButton>
+                    <!-- Title -->
+                    <MudText Typo="Typo.h5" style="margin-left: 10px;">View Quote</MudText>
+                </div>
+            </MudToolBar>
+        @if (quote != null)
+        {
+            <div>
+                <MudCardContent Style="background-color: #d7f1fa;">
+                    <MudCard Class="shadow p-2 mb-5 bg-white rounded" Style="margin: 2px;">
+                        <div class="row p-2 m-2">
+                            <label for="author" class="fw-bold fs-4">Author:</label>
+                            <MudText id="author" Placeholder="Author" >@quote.Author</MudText><br />
+                        </div>
+
+                        <div class="row p-2 m-2">
+                            <label for="Tag" class="fw-bold fs-4">Tags:</label>
+                            <div>
+                                @foreach (var (Tag, index) in quote.Tags.Select((tag, index) => (tag, index)))
+                                {
+                                    <MudChip Color="@GetChipColor(index)" Variant="Variant.Outlined" Size="Size.Small">@Tag</MudChip>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="row p-2 m-2">
+                            <label for="quoteDesc" style="padding-bottom: 4px" class="fw-bold fs-4">Quote Description:</label>
+                            <MudText id="author" Placeholder="Author" Style="padding-left: 17px">@quote.QuoteDesp</MudText><br />
+                        </div>
+                    </MudCard>
+                </MudCardContent>
+            </div>
+        }
+        else
+        {
+            <MudText Typo="Typo.h6">Loading.......</MudText>
+        }
+    </MudCard>
+</MudContainer>
+
+
+
+
+@code {
+    private Quote quote;
+
+    [Parameter]
+    public string Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        int quoteId;
+        if (int.TryParse(Id, out quoteId))
+        {
+            quote = await quoteService.GetQuoteById(quoteId);
+        }
+    }
+
+    private async Task SaveChanges()
+    {
+        await quoteService.UpdateQuote(quote);
+        navigationManager.NavigateTo("/");
+    }
+    private void AddTag(Quote quote)
+    {
+        quote.Tags.Add("");
+    }
+    private void RemoveTag(Quote quote, string tag)
+    {
+        quote.Tags.Remove(tag);
+    }
+    private async Task NavigateToMainPage()
+    {
+        navigationManager.NavigateTo("/");
+    }
+    private MudBlazor.Color GetChipColor(int index)
+    {
+        switch (index % 4)
+        {
+            case 0:
+                return Color.Primary;
+            case 1:
+                return Color.Secondary;
+            case 2:
+                return Color.Info;
+            default:
+                return Color.Default;
+        }
+    }
+}
